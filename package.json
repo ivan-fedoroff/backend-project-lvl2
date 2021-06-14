@@ -1,0 +1,36 @@
+{
+  "name": "@hexlet/code",
+  "version": "0.1.0",
+  "description": "utility for calculating of differencies",
+  "bin": {
+    "gendiff": "bin/gendiff.js"
+  },
+  "engines": {
+    "node": ">=14"
+  },
+  "scripts": {
+    "test": "npx jest --bail"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ivan-fedoroff/backend-project-lvl2.git"
+  },
+  "author": "Ivan Fedoroff vlad_tepesh@inbox.ru",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ivan-fedoroff/backend-project-lvl2/issues"
+  },
+  "type": "module",
+  "homepage": "https://github.com/ivan-fedoroff/backend-project-lvl2#readme",
+  "dependencies": {
+    "commander": "^7.2.0"
+  },
+  "devDependencies": {
+    "eslint": "^7.28.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "^2.23.4",
+    "eslint-plugin-jest": "^24.3.6",
+    "jest": "^27.0.4",
+    "jest-cli": "^27.0.4"
+  }
+}
