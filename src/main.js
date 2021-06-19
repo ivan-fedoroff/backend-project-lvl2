@@ -3,13 +3,13 @@ import * as fs from 'fs';
 import path from 'path';
 import _ from 'lodash';
 
-const getNormalizePath = (filepath) => {
-  const newPath = path.isAbsolute(filepath) ? filepath : path.resolve(process.cwd(), filepath);
+const getAbsolutePath = (filepath) => {
+  const newPath = path.isAbsolute(filepath) ? filepath : path.resolve(filepath);
   return newPath;
 };
 
 const getArrFromJSON = (filepath) => {
-  const data = fs.readFileSync(getNormalizePath(filepath), 'utf-8');
+  const data = fs.readFileSync(getAbsolutePath(filepath), 'utf-8');
   const obj = JSON.parse(data);
   const arr = Object.keys(obj).map((key) => [key, obj[key]]);
   return _.sortBy(arr, [0]);
