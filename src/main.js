@@ -1,24 +1,10 @@
-// index.mjs
-import * as fs from 'fs';
-import path from 'path';
 import _ from 'lodash';
-
-const getAbsolutePath = (filepath) => {
-  const newPath = path.isAbsolute(filepath) ? filepath : path.resolve(filepath);
-  return newPath;
-};
-
-const getArrFromJSON = (filepath) => {
-  const data = fs.readFileSync(getAbsolutePath(filepath), 'utf-8');
-  const obj = JSON.parse(data);
-  const arr = Object.keys(obj).map((key) => [key, obj[key]]);
-  return _.sortBy(arr, [0]);
-};
+import parse from './parsers.js';
 
 const genDiff = (filepath1, filepath2) => {
-  const arr1 = getArrFromJSON(filepath1);
+  const arr1 = parse(filepath1);
   const arr1Length = arr1.length;
-  const bigArr = arr1.concat(getArrFromJSON(filepath2));
+  const bigArr = arr1.concat(parse(filepath2));
   const agregator = (acc, el, index, arr) => {
     if (index < arr1Length) {
       const newArr = arr.slice(arr1Length);
