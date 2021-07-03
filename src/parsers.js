@@ -2,10 +2,7 @@ import * as fs from 'fs';
 import path from 'path';
 import yaml from 'js-yaml';
 
-const getAbsolutePath = (filepath) => {
-  const newPath = path.isAbsolute(filepath) ? filepath : path.resolve(filepath);
-  return newPath;
-};
+const getAbsolutePath = (filepath) => path.resolve(filepath);
 
 const chooseParser = (format) => {
   if (format === 'json') {
