@@ -9,8 +9,10 @@
 
 [![Test Coverage](https://api.codeclimate.com/v1/badges/e9c319f0f8130fb95c89/test_coverage)](https://codeclimate.com/github/ivan-fedoroff/backend-project-lvl2/test_coverage)
 
-### Ascinema
-JSON diff:
+### Asciinema
+Building  JSON diff:
 https://asciinema.org/a/jhqaFt3RUJL23bC0XK5v1C1xs
-YAML diff:
+Building YAML diff:
 https://asciinema.org/a/dXeTS7OndP3aXL3zvFroimyLG
+Building diff for nested structures:
+https://asciinema.org/connect/1e5938a6-f55e-4d42-a37e-1f3a11940da9

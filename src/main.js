@@ -1,38 +1,44 @@
 import _ from 'lodash';
 import parse from './parsers.js';
+import stylish from './formatters.js';
 
-const genDiff = (filepath1, filepath2) => {
-  const arr1 = parse(filepath1);
-  const arr1Length = arr1.length;
-  const bigArr = arr1.concat(parse(filepath2));
-  const agregator = (acc, el, index, arr) => {
-    if (index < arr1Length) {
-      const newArr = arr.slice(arr1Length);
-      const newEl = newArr.filter((element) => element.includes(el[0])).flat();
-      if (newEl.length < 1) {
-        return `${acc}
-  - ${el[0]}: ${el[1]}`;
+const getDiffObj = (obj1, obj2) => {
+  const diff = Object.keys(obj1).concat(Object.keys(obj2)).sort()
+    .reduce((acc, key) => {
+      if (!acc.includes(key)) {
+        return [...acc, key];
       }
-      if (_.isEqual(newEl[1], el[1])) {
-        return `${acc}
-    ${el[0]}: ${el[1]}`;
+      return acc;
+    }, [])
+    .reduce((acc, key) => {
+      if (key in obj1 && !(key in obj2)) {
+        return { ...acc, [`- ${key}`]: obj1[key] };
       }
-      return `${acc}
-  - ${el[0]}: ${el[1]}
-  + ${newEl[0]}: ${newEl[1]}`;
-    }
-    const newArr = arr.slice(0, arr1Length);
-    const newEl = newArr.filter((element) => element.includes(el[0]));
-    if (newEl.length < 1) {
-      return `${acc}
-  + ${el[0]}: ${el[1]}`;
-    }
-    return acc;
-  };
-  const diff = `${bigArr.reduce(agregator, '{')}
-}`;
-
+      if (!(key in obj1) && key in obj2) {
+        return { ...acc, [`+ ${key}`]: obj2[key] };
+      }
+      if (_.isEqual(obj1[key], obj2[key])) {
+        return { ...acc, [key]: obj1[key] };
+      }
+      if (_.isObject(obj1[key]) && _.isObject(obj2[key])) {
+        return { ...acc, [key]: getDiffObj(obj1[key], obj2[key]) };
+      }
+      return { ...acc, [`- ${key}`]: obj1[key], [`+ ${key}`]: obj2[key] };
+    }, {});
   return diff;
+};
+
+const genDiff = (filepath1, filepath2, format = 'stylish') => {
+  const file1 = parse(filepath1);
+  const file2 = parse(filepath2);
+  const diffInObj = getDiffObj(file1, file2);
+  const formatter = (type) => {
+    if (type === 'stylish') {
+      return stylish(diffInObj);
+    }
+    return stylish(diffInObj);
+  };
+  return formatter(format);
 };
 
 export default genDiff;
