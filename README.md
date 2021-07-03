@@ -10,9 +10,6 @@
 [![Test Coverage](https://api.codeclimate.com/v1/badges/e9c319f0f8130fb95c89/test_coverage)](https://codeclimate.com/github/ivan-fedoroff/backend-project-lvl2/test_coverage)
 
 ### Asciinema
-Building  JSON diff:
-https://asciinema.org/a/jhqaFt3RUJL23bC0XK5v1C1xs
-Building YAML diff:
-https://asciinema.org/a/dXeTS7OndP3aXL3zvFroimyLG
-Building diff for nested structures:
-https://asciinema.org/connect/1e5938a6-f55e-4d42-a37e-1f3a11940da9
+- [Building flat JSON diff](https://asciinema.org/a/jhqaFt3RUJL23bC0XK5v1C1xs)
+- [Building flat YAML diff](https://asciinema.org/a/dXeTS7OndP3aXL3zvFroimyLG)
+- [Building nested diff for nested structures](https://asciinema.org/connect/1e5938a6-f55e-4d42-a37e-1f3a11940da9)
