@@ -4,12 +4,13 @@ const newline = '\n';
 const tab = '  ';
 
 const getStrFromObj = (obj, n) => {
-  const keys = Object.keys(obj).sort();
+  const keys = Object.keys(obj);
+  const sortedKeys = _.sortBy(keys, (key) => key);
   const cb = (acc, name) => {
-    const last = _.isObject(obj[name]) ? getStrFromObj(obj[name], n + 2) : obj[name];
-    return `${acc}${newline}${tab.repeat(n + 1)}${name}: ${last}`;
+    const value = _.isObject(obj[name]) ? getStrFromObj(obj[name], n + 2) : obj[name];
+    return `${acc}${newline}${tab.repeat(n + 1)}${name}: ${value}`;
   };
-  const strDiff = keys.reduce(cb, '{');
+  const strDiff = sortedKeys.reduce(cb, '{');
   return `${strDiff}${newline}${tab.repeat(n - 1)}}`;
 };
 
@@ -19,7 +20,10 @@ const getValue = (value, n) => {
 };
 
 const getStylish = (arr, n = 1) => {
-  const cb = ({ name, value, oldValue, state, children }) => {
+  const cb = (element) => {
+    const {
+      name, value, oldValue, state, children,
+    } = element;
     if (state === 'removed') {
       return `${tab.repeat(n)}- ${name}: ${getValue(value, n)}`;
     }
