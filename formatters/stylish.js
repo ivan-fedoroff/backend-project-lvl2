@@ -13,29 +13,30 @@ const getStrFromObj = (obj, n) => {
   return `${strDiff}${newline}${tab.repeat(n - 1)}}`;
 };
 
+const getValue = (value, n) => {
+  const newValue = _.isObject(value) ? getStrFromObj(value, n + 2) : value;
+  return newValue;
+};
+
 const getStylish = (arr, n = 1) => {
-  const getValue = (value) => {
-    const newValue = _.isObject(value) ? getStrFromObj(value, n + 2) : value;
-    return newValue;
-  };
   const cb = (acc, element) => {
     const { key, value1, value2, state } = element;
     const prefix = (state === 'unchanged' || state === 'hadChildren')
       ? `${newline}${tab.repeat(n + 1)}` : `${newline}${tab.repeat(n)}`;
     if (state === 'removed') {
-      return `${acc}${prefix}- ${key}: ${getValue(value1)}`;
+      return `${acc}${prefix}- ${key}: ${getValue(value1, n)}`;
     }
     if (state === 'added') {
-      return `${acc}${prefix}+ ${key}: ${getValue(value2)}`;
+      return `${acc}${prefix}+ ${key}: ${getValue(value2, n)}`;
     }
     if (state === 'unchanged') {
-      return `${acc}${prefix}${key}: ${getValue(value1)}`;
+      return `${acc}${prefix}${key}: ${getValue(value1, n)}`;
     }
     if (state === 'hadChildren') {
       return `${acc}${prefix}${key}: ${getStylish(value1, n + 2)}`;
     }
 
-    return `${acc}${prefix}- ${key}: ${getValue(value1)}${prefix}+ ${key}: ${getValue(value2)}`;
+    return `${acc}${prefix}- ${key}: ${getValue(value1, n)}${prefix}+ ${key}: ${getValue(value2, n)}`;
   };
   return `${arr.reduce(cb, '{')}${newline}${tab.repeat(n - 1)}}`;
 };
