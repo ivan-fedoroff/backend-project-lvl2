@@ -1,3 +1,6 @@
+// eslint object-curly-newline: ["error", { "multiline": true }]
+// eslint-env es6
+
 import _ from 'lodash';
 import * as fs from 'fs';
 import path from 'path';
@@ -25,7 +28,9 @@ const getDiffInArr = (obj1, obj2) => {
       return [...acc, { name: key, state: 'hadChildren', children: getDiffInArr(obj1[key], obj2[key]) }];
     }
 
-    return [...acc, { name: key, value: obj2[key], oldValue: obj1[key], state: 'updated' }];
+    return [...acc, {
+      name: key, value: obj2[key], oldValue: obj1[key], state: 'updated',
+    }];
   }, []);
   return diff;
 };

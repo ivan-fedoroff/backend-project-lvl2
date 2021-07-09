@@ -10,24 +10,15 @@ const getValue = (value) => {
   return value;
 };
 
-const getName = (arr, currentName) => {
-  const iter = (node, ancestry) => {
-    const { name, children } = node;
-    const newAncestry = [...ancestry, name];
-    if (!children) { // is node?
-      return (name === currentName) ? newAncestry.join('.') : [];// return full path or clear path
-    }
-
-    return children.flatMap((child) => iter(child, newAncestry));// process interior node
-  };
-
-  return arr.flatMap((element) => iter(element, []));
-};
 const getFilter = (arr) => arr.filter(({ state }) => state !== 'unchanged');
 
 const getPlain = (arr) => {
   const removeUnchanged = getFilter(arr);
-  const cb = ({ name, value, oldValue, state, children }) => {
+  const iter = (node, ancestry) => {
+    const {
+      name, value, oldValue, state, children,
+    } = node;
+    const newAncestry = [...ancestry, name];
     const getEnd = () => {
       if (state === 'added') {
         return ` with value: ${getValue(value)}`;
@@ -39,13 +30,13 @@ const getPlain = (arr) => {
     };
 
     if (state !== 'hadChildren') {
-      return `Property '${getName(arr, name)}' was ${state}${getEnd(state)}`;
+      return `Property '${newAncestry.join('.')}' was ${state}${getEnd(state)}`;
     }
 
-    return getFilter(children).flatMap(cb).join('\n');
+    return getFilter(children).flatMap((child) => iter(child, newAncestry)).join('\n');
   };
 
-  const strDiff = removeUnchanged.flatMap(cb).join('\n');
+  const strDiff = removeUnchanged.flatMap((element) => iter(element, [])).join('\n');
   return strDiff;
 };
 export default getPlain;
