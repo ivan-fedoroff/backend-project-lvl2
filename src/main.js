@@ -4,26 +4,28 @@ import path from 'path';
 import parse from './parsers.js';
 import getStylishDiff from '../formatters/stylish.js';
 import getPlainDiff from '../formatters/plain.js';
+import getJsonDiff from '../formatters/json.js';
 
 const getAbsolutePath = (filepath) => path.resolve(filepath);
 
 const getDiffInArr = (obj1, obj2) => {
-  const unionKeys = Object.keys({ ...obj1, ...obj2 }).sort();
-  const diff = unionKeys.reduce((acc, key) => {
+  const unionKeys = Object.keys({ ...obj1, ...obj2 });
+  const sortedKeys = _.sortBy(unionKeys, (key) => key);
+  const diff = sortedKeys.reduce((acc, key) => {
     if (!(key in obj2)) {
-      return [...acc, { key: [key], value1: obj1[key], state: 'removed' }];
+      return [...acc, { name: key, value: obj1[key], state: 'removed' }];
     }
     if (!(key in obj1)) {
-      return [...acc, { key: [key], value2: obj2[key], state: 'added' }];
+      return [...acc, { name: key, value: obj2[key], state: 'added' }];
     }
     if (_.isEqual(obj1[key], obj2[key])) {
-      return [...acc, { key: [key], value1: obj1[key], state: 'unchanged' }];
+      return [...acc, { name: key, value: obj1[key], state: 'unchanged' }];
     }
     if (_.isObject(obj1[key]) && _.isObject(obj2[key])) {
-      return [...acc, { key: [key], value1: getDiffInArr(obj1[key], obj2[key]), state: 'hadChildren' }];
+      return [...acc, { name: key, value: getDiffInArr(obj1[key], obj2[key]), state: 'hadChildren' }];
     }
 
-    return [...acc, { key: [key], value1: obj1[key], value2: obj2[key], state: 'updated' }];
+    return [...acc, { name: key, value: obj2[key], oldValue: obj1[key], state: 'updated' }];
   }, []);
   return diff;
 };
@@ -39,6 +41,9 @@ const genDiff = (filepath1, filepath2, formatName = 'stylish') => {
   const formatter = (type) => {
     if (type === 'plain') {
       return getPlainDiff(diffInArr);
+    }
+    if (type === 'json') {
+      return getJsonDiff(diffInArr);
     }
     return getStylishDiff(diffInArr);
   };

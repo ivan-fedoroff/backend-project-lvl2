@@ -10,15 +10,15 @@ const getValue = (value) => {
   return value;
 };
 
-const getName = (arr, currentKey) => {
+const getName = (arr, currentName) => {
   const iter = (node, ancestry) => {
-    const { key, value1 } = node;
-    const newAncestry = [...ancestry, key];
-    if (!Array.isArray(value1)) { // is node?
-      return (key === currentKey) ? newAncestry.join('.') : [];// return new path or nothing
+    const { name, value } = node;
+    const newAncestry = [...ancestry, name];
+    if (!Array.isArray(value)) { // is node?
+      return (name === currentName) ? newAncestry.join('.') : [];// return new path or nothing
     }
 
-    return value1.flatMap((child) => iter(child, newAncestry));// process interior node
+    return value.flatMap((child) => iter(child, newAncestry));// process interior node
   };
 
   return arr.flatMap((element) => iter(element, []));
@@ -29,22 +29,22 @@ const getPlain = (arr) => {
   const filteredArr = getFilter(arr);
 
   const cb = (element) => {
-    const { key, value1, value2, state } = element;
+    const { name, value, oldValue, state } = element;
     const getEnd = () => {
       if (state === 'added') {
-        return ` with value: ${getValue(value2)}`;
+        return ` with value: ${getValue(value)}`;
       }
       if (state === 'updated') {
-        return `. From ${getValue(value1)} to ${getValue(value2)}`;
+        return `. From ${getValue(oldValue)} to ${getValue(value)}`;
       }
       return '';
     };
 
     if (state !== 'hadChildren') {
-      return `Property '${getName(arr, key)}' was ${state}${getEnd(state)}`;
+      return `Property '${getName(arr, name)}' was ${state}${getEnd(state)}`;
     }
 
-    return getFilter(value1).flatMap(cb).join('\n');
+    return getFilter(value).flatMap(cb).join('\n');
   };
 
   const strDiff = filteredArr.flatMap(cb).join('\n');

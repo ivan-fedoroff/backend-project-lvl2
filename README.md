@@ -14,3 +14,4 @@
 - [Building flat YAML diff](https://asciinema.org/a/dXeTS7OndP3aXL3zvFroimyLG)
 - [Building nested diff for nested structures](https://asciinema.org/connect/1e5938a6-f55e-4d42-a37e-1f3a11940da9)
 - [Building plain diff](https://asciinema.org/a/3MZ4Ak0CBP2X6ToCYihpkmPkX)
+- [Buildind json](https://asciinema.org/a/QvucAkRouB2UDlvx2IdEFzbAQ)
