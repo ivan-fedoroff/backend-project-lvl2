@@ -15,10 +15,8 @@ const getStrFromObj = (obj, n) => {
 
 const getStylish = (arr, n = 1) => {
   const getValue = (value) => {
-    if (_.isObject(value)) {
-      return getStrFromObj(value, n + 2);
-    }
-    return value;
+    const newValue = _.isObject(value) ? getStrFromObj(value, n + 2) : value;
+    return newValue;
   };
   const cb = (acc, element) => {
     const { key, value1, value2, state } = element;
@@ -39,8 +37,7 @@ const getStylish = (arr, n = 1) => {
 
     return `${acc}${prefix}- ${key}: ${getValue(value1)}${prefix}+ ${key}: ${getValue(value2)}`;
   };
-  const strDiff = `${arr.reduce(cb, '{')}${newline}${tab.repeat(n - 1)}}`;
-  return strDiff;
+  return `${arr.reduce(cb, '{')}${newline}${tab.repeat(n - 1)}}`;
 };
 
 export default getStylish;

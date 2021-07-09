@@ -1,6 +1,6 @@
 {
   "name": "@hexlet/code",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "utility for calculating of differencies",
   "bin": {
     "gendiff": "bin/gendiff.js"
