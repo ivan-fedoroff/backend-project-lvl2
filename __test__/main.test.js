@@ -74,7 +74,8 @@ Property 'group3' was added with value: [complex value]`;
 const jsonDiff = `[
   {
     "name": "common",
-    "value": [
+    "state": "hadChildren",
+    "children": [
       {
         "name": "follow",
         "value": false,
@@ -110,18 +111,19 @@ const jsonDiff = `[
       },
       {
         "name": "setting6",
-        "value": [
+        "state": "hadChildren",
+        "children": [
           {
             "name": "doge",
-            "value": [
+            "state": "hadChildren",
+            "children": [
               {
                 "name": "wow",
                 "value": "so much",
                 "oldValue": "",
                 "state": "updated"
               }
-            ],
-            "state": "hadChildren"
+            ]
           },
           {
             "name": "key",
@@ -133,15 +135,14 @@ const jsonDiff = `[
             "value": "vops",
             "state": "added"
           }
-        ],
-        "state": "hadChildren"
+        ]
       }
-    ],
-    "state": "hadChildren"
+    ]
   },
   {
     "name": "group1",
-    "value": [
+    "state": "hadChildren",
+    "children": [
       {
         "name": "baz",
         "value": "bars",
@@ -161,8 +162,7 @@ const jsonDiff = `[
         },
         "state": "updated"
       }
-    ],
-    "state": "hadChildren"
+    ]
   },
   {
     "name": "group2",
@@ -188,21 +188,9 @@ const jsonDiff = `[
   }
 ]`;
 
-// const filepathExceptions1 = getFixturePath('fileWithExceptions1.json');
-// const filepathExceptions2 = getFixturePath('fileWithExceptions2.json');
-/* const resultWithExceptions = `{
-  - follow: false
-  + follow: false
-    host: hexlet.io
-  - proxy: 123.234.53.22
-    timeout:
-  + verbose: true
-}`; */
-
 test('Main stylish work', () => {
   expect(genDiff(filepathJSON1, filepathJSON2)).toEqual(stylishRightDiff);
   expect(genDiff(filepathYML1, filepathYML2)).toEqual(stylishRightDiff);
-// expect(genDiff(filepathExceptions1, filepathExceptions2)).toEqual(resultWithExceptions);
 });
 
 test('Plain work', () => {

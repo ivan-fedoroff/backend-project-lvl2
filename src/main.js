@@ -22,7 +22,7 @@ const getDiffInArr = (obj1, obj2) => {
       return [...acc, { name: key, value: obj1[key], state: 'unchanged' }];
     }
     if (_.isObject(obj1[key]) && _.isObject(obj2[key])) {
-      return [...acc, { name: key, value: getDiffInArr(obj1[key], obj2[key]), state: 'hadChildren' }];
+      return [...acc, { name: key, state: 'hadChildren', children: getDiffInArr(obj1[key], obj2[key]) }];
     }
 
     return [...acc, { name: key, value: obj2[key], oldValue: obj1[key], state: 'updated' }];

@@ -19,26 +19,24 @@ const getValue = (value, n) => {
 };
 
 const getStylish = (arr, n = 1) => {
-  const cb = (acc, element) => {
-    const { name, value, oldValue, state } = element;
-    const prefix = (state === 'unchanged' || state === 'hadChildren')
-      ? `${newline}${tab.repeat(n + 1)}` : `${newline}${tab.repeat(n)}`;
+  const cb = ({ name, value, oldValue, state, children }) => {
     if (state === 'removed') {
-      return `${acc}${prefix}- ${name}: ${getValue(value, n)}`;
+      return `${tab.repeat(n)}- ${name}: ${getValue(value, n)}`;
     }
     if (state === 'added') {
-      return `${acc}${prefix}+ ${name}: ${getValue(value, n)}`;
+      return `${tab.repeat(n)}+ ${name}: ${getValue(value, n)}`;
     }
     if (state === 'unchanged') {
-      return `${acc}${prefix}${name}: ${getValue(value, n)}`;
+      return `${tab.repeat(n + 1)}${name}: ${getValue(value, n)}`;
     }
     if (state === 'hadChildren') {
-      return `${acc}${prefix}${name}: ${getStylish(value, n + 2)}`;
+      return `${tab.repeat(n + 1)}${name}: ${getStylish(children, n + 2)}`;
     }
 
-    return `${acc}${prefix}- ${name}: ${getValue(oldValue, n)}${prefix}+ ${name}: ${getValue(value, n)}`;
+    return `${tab.repeat(n)}- ${name}: ${getValue(oldValue, n)}
+${tab.repeat(n)}+ ${name}: ${getValue(value, n)}`;
   };
-  return `${arr.reduce(cb, '{')}${newline}${tab.repeat(n - 1)}}`;
+  return `{${newline}${arr.flatMap(cb).join('\n')}${newline}${tab.repeat(n - 1)}}`;
 };
 
 export default getStylish;
