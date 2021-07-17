@@ -1,6 +1,6 @@
 {
   "name": "@hexlet/code",
-  "version": "0.4.2",
+  "version": "0.4.3",
   "description": "cli-utility for building diff of 2 files",
   "bin": {
     "gendiff": "bin/gendiff.js"

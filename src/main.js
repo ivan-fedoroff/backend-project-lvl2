@@ -2,14 +2,12 @@
 // eslint-env es6
 
 import _ from 'lodash';
-import * as fs from 'fs';
 import path from 'path';
 import parse from './parsers.js';
+import readFile from './reader.js';
 import getStylishDiff from '../formatters/stylish.js';
 import getPlainDiff from '../formatters/plain.js';
 import getJsonDiff from '../formatters/json.js';
-
-const getAbsolutePath = (filepath) => path.resolve(filepath);
 
 const getDiffInArr = (obj1, obj2) => {
   const unionKeys = Object.keys({ ...obj1, ...obj2 });
@@ -36,10 +34,10 @@ const getDiffInArr = (obj1, obj2) => {
 };
 
 const genDiff = (filepath1, filepath2, formatName = 'stylish') => {
-  const extend1 = path.extname(getAbsolutePath(filepath1));
-  const extend2 = path.extname(getAbsolutePath(filepath2));
-  const data1 = fs.readFileSync(getAbsolutePath(filepath1), 'utf-8');
-  const data2 = fs.readFileSync(getAbsolutePath(filepath2), 'utf-8');
+  const extend1 = path.extname(filepath1);
+  const extend2 = path.extname(filepath2);
+  const data1 = readFile(filepath1);
+  const data2 = readFile(filepath2);
   const obj1 = parse(data1, extend1);
   const obj2 = parse(data2, extend2);
   const diffInArr = getDiffInArr(obj1, obj2);
