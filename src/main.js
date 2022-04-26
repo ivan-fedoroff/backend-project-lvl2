@@ -34,8 +34,8 @@ const getDiffInArr = (obj1, obj2) => {
 };
 
 const genDiff = (filepath1, filepath2, formatName = 'stylish') => {
-  const extend1 = path.extname(filepath1);
-  const extend2 = path.extname(filepath2);
+  const extend1 = path.extname(filepath1).slice(1);
+  const extend2 = path.extname(filepath2).slice(1);
   const data1 = readFile(filepath1);
   const data2 = readFile(filepath2);
   const obj1 = parse(data1, extend1);
