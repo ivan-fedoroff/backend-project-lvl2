@@ -42,7 +42,7 @@ jobs:
           make lint
       - name: Unit tests
         run: |
-        make test
+          make test
       - name: Test & publish code coverage
         # Publish code coverage on Code Climate
         # https://github.com/paambaati/codeclimate-action
